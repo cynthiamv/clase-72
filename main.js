@@ -42,19 +42,19 @@ const productos = [{
 
 const form = document.querySelector("form")
 const inputFiltro = document.querySelector("#input-filtro")
-const sectionProductos = document.querySelector(".lista-productos")
+const sectionProductos = document.querySelector(".container-productos")
 
 const mostrar = listaPoductos => {
     listaPoductos.forEach(producto => {
         sectionProductos.innerHTML +=
             `<div class="card">
-         <div class="image">
-             <img src="${producto.img}" alt="">
-         </div>
-         <div class="product-name">
-             <h3>${producto.nombre}</h3>
-         </div>
-     </div>`
+                <div class="image">
+                    <img src="${producto.img}" alt="">
+                </div>
+                <div class="name">
+                    <h3>${producto.nombre}</h3>
+                </div>
+            </div>`
     })
 }
 
