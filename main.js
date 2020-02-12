@@ -44,10 +44,8 @@ const form = document.querySelector("form")
 const inputFiltro = document.querySelector("#input-filtro")
 const sectionProductos = document.querySelector(".container-productos")
 
-const mostrar = listaPoductos => {
-    listaPoductos.forEach(producto => {
-        sectionProductos.innerHTML +=
-            `<div class="card">
+const mostrar = producto => {
+    return `<div class="card">
                 <div class="image">
                     <img src="${producto.img}" alt="">
                 </div>
@@ -55,28 +53,30 @@ const mostrar = listaPoductos => {
                     <h3>${producto.nombre}</h3>
                 </div>
             </div>`
-    })
 }
 
-let productoFiltrado = "";
-const mostrarProductosElegidos = (listaPoductos, inputFiltro) => {
-    
-    productoFiltrado = listaPoductos.filter((producto) => producto.tipo == inputFiltro.value || producto.color == inputFiltro.value)
-    console.log(productoFiltrado)
-    sectionProductos.innerHTML = '';
-    mostrar(productoFiltrado)
+const mostrarTodosLosProductos = (catalogo) => {
+    const productos = catalogo.map(producto => {
+        return mostrar(producto);
+    });
+    console.log(productos)
+    sectionProductos.innerHTML = productos.join(" ");
+};
+
+const productoFiltrado = input => {
+    const listaProductos = productos.reduce((acc, curr) => {
+        if (curr.nombre.toLowerCase().includes(input.value)) {
+            acc += mostrar(curr);
+        }
+        return acc;
+    }, "");
+
+    sectionProductos.innerHTML = listaProductos;
 }
 
-mostrar(productos)
+mostrarTodosLosProductos(productos)
 
 form.onsubmit = e => {
     e.preventDefault();
-    console.log(inputFiltro)
-    if (!inputFiltro.value) {
-        sectionProductos.innerHTML = ""
-        mostrar(productos)
-    } else {
-        mostrarProductosElegidos(productos, inputFiltro)
-    }  
-
-}
+    productoFiltrado(inputFiltro)
+} 
